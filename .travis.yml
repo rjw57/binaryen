@@ -29,6 +29,10 @@ matrix:
       compiler: gcc
       addons: *gcc5
 
+    - env: CC_COMPILER="gcc-5" CXX_COMPILER="g++-5" BUILD_STATIC="-DBUILD_STATIC_LIB=ON"
+      compiler: gcc
+      addons: *gcc5
+
 before_install:
   - export CC="${CC_COMPILER}"
   - export CXX="${CXX_COMPILER}"
@@ -43,7 +47,7 @@ before_script:
 
 script:
   - ./check.py --only-prepare
-  - cmake . -DCMAKE_C_FLAGS="$COMPILER_FLAGS" -DCMAKE_CXX_FLAGS="$COMPILER_FLAGS"
+  - cmake . $BUILD_STATIC -DCMAKE_C_FLAGS="$COMPILER_FLAGS" -DCMAKE_CXX_FLAGS="$COMPILER_FLAGS"
   - make -j2
   - ./check.py
 
